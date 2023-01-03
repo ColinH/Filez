@@ -3,6 +3,7 @@
 #pragma once
 
 #include <filesystem>
+#include <unistd.h>
 
 #include "create_file.hpp"
 #include "file_info.hpp"
@@ -22,12 +23,15 @@ namespace filez
            m_src_files( make_full_file_info_by_path_set( m_src_path ) ),
            m_old_files( make_full_file_info_by_size_map( m_old_path ) )
       {
+         FILEZ_STDOUT( "Creating directory hierarchy..." );
          constexpr auto opts = std::filesystem::copy_options::recursive | std::filesystem::copy_options::directories_only | std::filesystem::copy_options::skip_symlinks;
          std::filesystem::copy( m_src_path, m_new_path, opts );
       }
 
       void backup()
       {
+         FILEZ_STDOUT( "Copying and hard linking files..." );
+
          for( const auto& fi : m_src_files ) {
             if( fi->stat().is_file() ) {
                backup( *fi );
@@ -38,7 +42,8 @@ namespace filez
          FILEZ_STDOUT( "Bytes linked: " << m_linked_bytes );
          FILEZ_STDOUT( "Files copied: " << m_copied_files );
          FILEZ_STDOUT( "Bytes copied: " << m_copied_bytes );
-         FILEZ_STDOUT( "Found files: " << m_old_files.size() );
+         FILEZ_STDOUT( "Old backup files: " << m_old_files.size() );
+         // FILEZ_STDOUT( "Old unused files: TODO" );
       }
 
    private:
@@ -54,6 +59,9 @@ namespace filez
 
       void backup( file_info& fi )
       {
+         if( fi.path().native().ends_with( ".DS_Store" ) ) {
+            return;
+         }
          const auto to = transfer( fi.path(), m_src_path, m_new_path );
 
          if( fi.stat().size() == 0 ) {
@@ -83,11 +91,16 @@ namespace filez
          }
          for( const auto& of : iter->second ) {
             if( of->smart_hash() == fi.smart_hash() ) {
-               constexpr auto opts = std::filesystem::copy_options::create_hard_links;
-
-               if( !std::filesystem::copy_file( of->path(), to, opts ) ) {
-                  FILEZ_ERROR( "TODO (hard link old backup file failed" );
+               errno = 0;
+               if( ::link( of->path().c_str(), to.c_str() ) != 0 ) {
+                  FILEZ_ERRNO( "link file " << of->path() << " to " << to << " failed" );
                }
+               // TODO: Is my libc++ broken or why does this copy instead of creating hard links?
+               // constexpr auto opts = std::filesystem::copy_options::create_hard_links;
+               // if( !std::filesystem::copy_file( of->path(), to, opts ) ) {
+               //    FILEZ_ERROR( "link file " << of->path() << " to " << to << " failed" );
+               // }
+
                ++m_linked_files;
                m_linked_bytes += fi.stat().size();
                FILEZ_STDOUT( "Link: " << of->path() << " -> " << to );
@@ -100,7 +113,7 @@ namespace filez
       void backup_copy( file_info& fi, const std::filesystem::path& to )
       {
          if( !std::filesystem::copy_file( fi.path(), to ) ) {
-            FILEZ_ERROR( "TODO (copy source file failed)" );
+            FILEZ_ERROR( "copy file " << fi.path() << " to " << to << " failed" );
          }
          ++m_copied_files;
          m_copied_bytes += fi.stat().size();
