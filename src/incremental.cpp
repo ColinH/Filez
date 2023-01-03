@@ -13,15 +13,33 @@ int main( int argc, char** argv )
 {
    filez::arguments args( paths );
 
-   if( ( !args.parse_nothrow( argc, argv ) ) || ( paths.size() < 2 ) ) {
-      FILEZ_STDERR( "Usage: " << argv[ 0 ] << " <source_dir> [old_backup]... <new_backup>" );
+   filez::incremental_args fia;
+
+   args.add_bool( 'h', fia.h );
+   args.add_bool( 'H', fia.H );
+   args.add_bool( 'n', fia.n );
+   args.add_bool( 'N', fia.N );
+   args.add_bool( 'p', fia.p );
+   args.add_bool( 'P', fia.P );
+
+   if( ( !args.parse_nothrow( argc, argv ) ) || ( paths.size() < 3 ) || ( !fia.is_any_set() ) ) {
+      FILEZ_STDERR( "Usage: " << argv[ 0 ] << " [options]... <source_dir> [old_backup]... <new_backup>" );
       FILEZ_STDERR( "  Creates a new directory hierarchy under new_backup that mirrors source_dir." );
       FILEZ_STDERR( "  Hard links files from the old_backups into new_backup when possible, copies" );
       FILEZ_STDERR( "  the files from source_dir when the file does not exist in a previous backup." );
+      FILEZ_STDERR( "  Files in the old backup(s) are hard linked instead of copied when..." );
+      FILEZ_STDERR( "    -h the file size and smart hash matches." );
+      FILEZ_STDERR( "    -H the file size and total hash matches." );
+      FILEZ_STDERR( "    -n the file size and file name and smart hash matches." );
+      FILEZ_STDERR( "    -N the file size and file name and total hash matches." );
+      FILEZ_STDERR( "    -p the file size and file name matches." );
+      FILEZ_STDERR( "    -P the file size and relative path within source_dir and the old_backup dir matches, including file name." );
+      FILEZ_STDERR( "  Options can also be combined, e.g. -hP (or -h -P) will search both according to -h and -P." );
+      FILEZ_STDERR( "  At least one option and one old_backup must be given -- otherwise we are just emulating 'cp -R'." );
       FILEZ_STDERR( "Copyright (c) 2022-2023 Dr. Colin Hirsch" );
       return 1;
    }
-   filez::incremental_work incremental( paths.front(), paths.back() );
+   filez::incremental_work incremental( paths.front(), paths.back(), fia );
 
    for( std::size_t i = 1; i + 1 < paths.size(); ++i ) {
       incremental.add( paths[ i ] );

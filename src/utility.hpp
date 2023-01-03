@@ -47,6 +47,14 @@ namespace filez
       return true;
    }
 
+   [[nodiscard]] inline bool transferred( const std::filesystem::path& source, const std::filesystem::path& original, const std::filesystem::path& candidate )
+   {
+      FILEZ_ASSERT( original.native().starts_with( source.native() ) );
+      FILEZ_ASSERT( source.native().size() < original.native().size() );
+
+      return candidate.native().ends_with( original.native().substr( source.native().size() ) );  // TODO: Use std::string_view instead of temporary std::string.
+   }
+
    [[nodiscard]] inline std::filesystem::path transfer( const std::filesystem::path& path, const std::filesystem::path& left, const std::filesystem::path& right )
    {
       FILEZ_ASSERT( path != left );
