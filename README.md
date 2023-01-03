@@ -17,6 +17,8 @@ Enter `make` in the Terminal on a Mac with the Xcode command line tools installe
 
 The binaries can then be found under `build/bin`.
 
+If the `clang++` included with your Xcode does not support C++20 you will need to install a newer compiler, for example using [Homebrew](https://brew.sh) to install a recent LLVM or GCC.
+
 ## The Tools
 
 None of these tools ever delete or overwrite any existing filesystem object.
@@ -104,8 +106,8 @@ If the file is larger than 1024 times the chunk size then chunk size bytes at th
 
 ## Limitations
 
-Currently only compiles on macOS, with Linux support possibly coming soon.
+Currently soft links are always ignored and never followed.
 
-Does not give the user the choice between 'follow' and 'ignore' for soft links.
+Currently only compiles on macOS, with Linux support possibly coming soon.
 
 Copyright (c) 2022-2023 Dr. Colin Hirsch
