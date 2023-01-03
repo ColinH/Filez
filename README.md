@@ -1,4 +1,4 @@
-# FileZ
+# Filez
 
 A couple of file tools for the Unix shell.
 
