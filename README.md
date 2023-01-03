@@ -60,7 +60,7 @@ All available options are shown when invoked without command line arguments.
 
 ### Incremental
 
-Creates a new backup from a source directory and zero or more old backups.
+Creates a new backup from a source directory and one or more old backups.
 
 Files that exist in the old backups are hard linked into the new backup instead of copying from the source.
 
@@ -74,6 +74,8 @@ Files for hard linking from an old backup to the new backup are found by:
  * Matching file size and relative paths within source_dir and an old_backup.
 
 All available options are shown when invoked without command line arguments.
+
+At least one of the search strategies for hard linking has to be enabled.
 
 The backup directories must all be on the same filesystem, and the source directory must be on a different one.
 
