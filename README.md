@@ -60,13 +60,13 @@ All available options are shown when invoked without command line arguments.
 
 ### Incremental
 
-Creates a new backup from a source directory and an old backup.
+Creates a new backup from a source directory and zero or more old backups.
 
-Files that exist in the old backup are hard linked into the new backup instead of copying from the source.
+Files that exist in the old backups are hard linked into the new backup instead of copying from the source.
 
-Files for hard linking from the old to the new backup are found by file size and smart hash (not path or name).
+Files for hard linking from an old to the new backup are found by file size and smart hash (not path or name).
 
-The two backup directories must be on the same filesystem, and the source directory must be on a different one.
+The backup directories must all be on the same filesystem, and the source directory must be on a different one.
 
 Unlike many other backup applications this one never consults any of the file timestamps to determine anything.
 

@@ -15,17 +15,21 @@
 namespace filez
 {
    class incremental_work
-      : private incremental_base
+      : public incremental_base
    {
    public:
-      incremental_work( const std::filesystem::path& source_dir, const std::filesystem::path old_backup, const std::filesystem::path new_backup )
-         : incremental_base( source_dir, old_backup, new_backup ),
-           m_src_files( make_full_file_info_by_path_set( m_src_path ) ),
-           m_old_files( make_full_file_info_by_size_map( m_old_path ) )
+      incremental_work( const std::filesystem::path& source_dir, const std::filesystem::path new_backup )
+         : incremental_base( source_dir, new_backup )
       {
          FILEZ_STDOUT( "Creating directory hierarchy..." );
          constexpr auto opts = std::filesystem::copy_options::recursive | std::filesystem::copy_options::directories_only | std::filesystem::copy_options::skip_symlinks;
-         std::filesystem::copy( m_src_path, m_new_path, opts );
+         std::filesystem::copy( m_src_path, m_new_path, opts );  // TODO: This is slower than expected, optimise?
+      }
+
+      incremental_work( const std::filesystem::path& source_dir, const std::filesystem::path old_backup, const std::filesystem::path new_backup )
+         : incremental_work( source_dir, new_backup )
+      {
+         add( old_backup );
       }
 
       void backup()
@@ -47,15 +51,12 @@ namespace filez
       }
 
    private:
-      std::size_t m_limit = 4000;
+      std::size_t m_limit = 4000;  // TODO: Customisation point.
       std::size_t m_empty_files = 0;
       std::size_t m_copied_files = 0;
       std::size_t m_copied_bytes = 0;
       std::size_t m_linked_files = 0;
       std::size_t m_linked_bytes = 0;
-
-      const file_info_by_path_set m_src_files;
-      const file_info_by_size_map m_old_files;
 
       void backup( file_info& fi )
       {
