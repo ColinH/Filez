@@ -4,6 +4,7 @@ A couple of file tools for the Unix shell.
 
  * [Duplicates](#duplicates) finds duplicate files.
  * [Variations](#variations) does something similar.
+ * [Deduplicate](#deduplicate) hard links duplicates.
  * [Incremental](#incremental) for efficient incremental backups.
  * [Tree Struct Diff](#tree-struct-diff) compares two directory trees.
 
@@ -57,6 +58,12 @@ The following variations can be chosen from:
  * Files with the same total hash but different device and/or inode.
 
 All variations are printed with their paths.
+
+All available options are shown when invoked without command line arguments.
+
+### Deduplicate
+
+Creates a copy of a directory structure where all identical files are hard links to one of the identical originals.
 
 All available options are shown when invoked without command line arguments.
 

@@ -5,7 +5,7 @@
 #include <filesystem>
 #include <unistd.h>
 
-#include "create_file.hpp"
+#include "filesystem.hpp"
 #include "file_info.hpp"
 #include "file_info_maps.hpp"
 #include "file_info_sets.hpp"
@@ -77,7 +77,7 @@ namespace filez
 
       void backup_empty( const std::filesystem::path& to )
       {
-         create_file( to );
+         create_empty_file( to );
          ++m_empty_files;
          FILEZ_STDOUT( "Create: " << to );
       }
@@ -151,16 +151,7 @@ namespace filez
 
       void backup_link_impl( file_info& of, const std::filesystem::path& to )
       {
-         errno = 0;
-         if( ::link( of.path().c_str(), to.c_str() ) != 0 ) {
-            FILEZ_ERRNO( "link file " << of.path() << " to " << to << " failed" );
-         }
-         // TODO: Is my libc++ broken or why does this copy instead of creating hard links?
-         // constexpr auto opts = std::filesystem::copy_options::create_hard_links;
-         // if( !std::filesystem::copy_file( of.path(), to, opts ) ) {
-         //    FILEZ_ERROR( "link file " << of.path() << " to " << to << " failed" );
-         // }
-
+         hard_link_impl( of.path(), to );
          ++m_linked_files;
          m_linked_bytes += of.stat().size();
          FILEZ_STDOUT( "Link: " << of.path() << " -> " << to );
@@ -168,9 +159,8 @@ namespace filez
 
       void backup_copy( file_info& fi, const std::filesystem::path& to )
       {
-         if( !std::filesystem::copy_file( fi.path(), to ) ) {
-            FILEZ_ERROR( "copy file " << fi.path() << " to " << to << " failed" );
-         }
+         copy_file_impl( fi.path(), to );
+
          if( m_args.x ) {
             add( std::make_shared< file_info >( to ) );
          }

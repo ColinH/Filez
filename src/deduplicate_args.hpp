@@ -4,19 +4,14 @@
 
 namespace filez
 {
-   struct incremental_args
+   struct deduplicate_args
    {
       bool h = false;
       bool H = false;
-      bool n = false;
-      bool N = false;
-      bool p = false;
-      bool P = false;
-      bool x = false;
 
       [[nodiscard]] bool valid() const noexcept
       {
-         return h || H || n || N || p || P || x;
+         return h != H;
       }
    };
 
