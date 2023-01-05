@@ -12,10 +12,11 @@ namespace filez
       bool N = false;
       bool p = false;
       bool P = false;
+      bool x = false;
 
       [[nodiscard]] bool is_any_set() const noexcept
       {
-         return h || H || n || N || p || P;
+         return h || H || n || N || p || P || x;
       }
    };
 

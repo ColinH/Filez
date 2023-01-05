@@ -21,8 +21,9 @@ int main( int argc, char** argv )
    args.add_bool( 'N', fia.N );
    args.add_bool( 'p', fia.p );
    args.add_bool( 'P', fia.P );
+   args.add_bool( 'x', fia.x );
 
-   if( ( !args.parse_nothrow( argc, argv ) ) || ( paths.size() < 3 ) || ( !fia.is_any_set() ) ) {
+   if( ( !args.parse_nothrow( argc, argv ) ) || ( paths.size() < 2 ) || ( !fia.is_any_set() ) ) {
       FILEZ_STDERR( "Usage: " << argv[ 0 ] << " [options]... <source_dir> [old_backup]... <new_backup>" );
       FILEZ_STDERR( "  Creates a new directory hierarchy under new_backup that mirrors source_dir." );
       FILEZ_STDERR( "  Hard links files from the old_backups into new_backup when possible, copies" );
@@ -34,8 +35,9 @@ int main( int argc, char** argv )
       FILEZ_STDERR( "    -N the file size and file name and total hash matches." );
       FILEZ_STDERR( "    -p the file size and file name matches." );
       FILEZ_STDERR( "    -P the file size and relative path within source_dir and the old_backup dir matches, including file name." );
+      FILEZ_STDERR( "    -x Consider freshly copied files as candidates for hard linking." );
       FILEZ_STDERR( "  Options can also be combined, e.g. -hP (or -h -P) will search both according to -h and -P." );
-      FILEZ_STDERR( "  At least one option and one old_backup must be given -- otherwise we are just emulating 'cp -R'." );
+      FILEZ_STDERR( "  At least one option must be given -- though everything except for -x is a nop without an old_backup." );
       FILEZ_STDERR( "Copyright (c) 2022-2023 Dr. Colin Hirsch" );
       return 1;
    }

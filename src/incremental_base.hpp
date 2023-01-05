@@ -60,6 +60,11 @@ namespace filez
          }
       }
 
+      void add( const std::shared_ptr< file_info >& copied )
+      {
+         m_old_files.try_emplace( copied->stat().size() ).first->second.emplace_back( copied );
+      }
+
       const std::filesystem::path m_src_path;
       const std::filesystem::path m_new_path;
 

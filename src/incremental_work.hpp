@@ -171,6 +171,9 @@ namespace filez
          if( !std::filesystem::copy_file( fi.path(), to ) ) {
             FILEZ_ERROR( "copy file " << fi.path() << " to " << to << " failed" );
          }
+         if( m_args.x ) {
+            add( std::make_shared< file_info >( to ) );
+         }
          ++m_copied_files;
          m_copied_bytes += fi.stat().size();
          FILEZ_STDOUT( "Copy: " << fi.path() << " -> " << to );
