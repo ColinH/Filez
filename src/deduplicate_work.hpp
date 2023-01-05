@@ -45,7 +45,6 @@ namespace filez
       }
 
    private:
-      std::size_t m_limit = 0;  // TODO: Customisation point.
       std::size_t m_empty_files = 0;
       std::size_t m_copied_files = 0;
       std::size_t m_copied_bytes = 0;
@@ -73,7 +72,7 @@ namespace filez
          if( fi.stat().size() == 0 ) {
             merge_empty( to );
          }
-         else if( fi.stat().size() < m_limit ) {
+         else if( fi.stat().size() < m_args.c ) {
             merge_copy( fi, to );
          }
          else {

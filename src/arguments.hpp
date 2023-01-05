@@ -84,6 +84,18 @@ namespace filez
          add_impl( s, callback );
       }
 
+      void add_size( const char c, std::size_t& n )
+      {
+         add_impl( c, [ & ]( const std::string_view v ){ n = std::stoul( std::string( v ) ); } )->needs_parameter = true;
+      }
+
+      void add_size( const std::string_view s, std::size_t& n )
+      {
+         add_impl( s, [ & ]( const std::string_view v ){ n = std::stoul( std::string( v ) ); } )->needs_parameter = true;
+      }
+
+      // ...
+
       void add_count( const char c, unsigned& n )
       {
          add_impl( c, [ & ]( const std::string_view ){ ++n; } )->can_be_repeated = true;

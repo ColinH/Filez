@@ -14,6 +14,8 @@ namespace filez
       bool P = false;
       bool x = false;
 
+      std::size_t c = 0;
+
       [[nodiscard]] bool valid() const noexcept
       {
          return h || H || n || N || p || P || x;

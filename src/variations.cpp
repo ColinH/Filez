@@ -46,17 +46,17 @@ int main( int argc, char** argv )
    if( ( !args.parse_nothrow( argc, argv ) ) || paths.empty() ) {
       FILEZ_STDERR( "Usage: " << argv[ 0 ] << " [OPTION]... DIRECTORY [DIRECTORY]..." );
       FILEZ_STDERR( "  Finds file meta data variations in one or more directories." );
-      FILEZ_STDERR( "    -s Finds variations of file size for the same file name." );
-      FILEZ_STDERR( "    -i Finds variations of file name for the same device and inode." );
-      FILEZ_STDERR( "    -n Finds variations of smart hash for the same file name (default)." );
-      FILEZ_STDERR( "    -N Finds variations of total hash for the same file name." );
-      FILEZ_STDERR( "    -h Finds variations of file name for the same smart hash." );
-      FILEZ_STDERR( "    -H Finds variations of file name for the same total hash." );
-      FILEZ_STDERR( "    -x Finds variations of device and inode for the same smart hash." );
-      FILEZ_STDERR( "    -X Finds variations of device and inode for the same total hash." );
+      FILEZ_STDERR( "    -s   Finds variations of file size for the same file name." );
+      FILEZ_STDERR( "    -i   Finds variations of file name for the same device and inode." );
+      FILEZ_STDERR( "    -n   Finds variations of smart hash for the same file name (default)." );
+      FILEZ_STDERR( "    -N   Finds variations of total hash for the same file name." );
+      FILEZ_STDERR( "    -h   Finds variations of file name for the same smart hash." );
+      FILEZ_STDERR( "    -H   Finds variations of file name for the same total hash." );
+      FILEZ_STDERR( "    -x   Finds variations of device and inode for the same smart hash." );
+      FILEZ_STDERR( "    -X   Finds variations of device and inode for the same total hash." );
       FILEZ_STDERR( "  Additional options are..." );
-      FILEZ_STDERR( "    -R to change to non-recursive scanning." );
-      FILEZ_STDERR( "    -C to disable normalising the given paths." );
+      FILEZ_STDERR( "    -R   to change to non-recursive scanning." );
+      FILEZ_STDERR( "    -C   to disable normalising the given paths." );
       FILEZ_STDERR( "  Symbolic links are followed or ignored, can't remember." );
       FILEZ_STDERR( "  The smart hash only hashes two or three small chunks" );
       FILEZ_STDERR( "    when the file is large and the extension is one for" );

@@ -26,9 +26,9 @@ int main( int argc, char** argv )
       FILEZ_STDERR( "  Compares the structure of two directory trees comparing" );
       FILEZ_STDERR( "  the file names present or absent in each (sub-)directory." );
       FILEZ_STDERR( "  Options are..." );
-      FILEZ_STDERR( "    -C to disable normalising the given paths." );
-      FILEZ_STDERR( "    -s to also check file sizes for differences." );
-      FILEZ_STDERR( "    -t to also check file types for differences." );
+      FILEZ_STDERR( "    -C   to disable normalising the given paths." );
+      FILEZ_STDERR( "    -s   to also check file sizes for differences." );
+      FILEZ_STDERR( "    -t   to also check file types for differences." );
       FILEZ_STDERR( "  File types are 'directory', 'file', etc." );
       FILEZ_STDERR( "Copyright (c) 2022-2023 Dr. Colin Hirsch" );
       return 1;
