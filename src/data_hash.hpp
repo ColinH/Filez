@@ -5,23 +5,18 @@
 #include <cstddef>
 #include <string>
 
-#include <CommonCrypto/CommonDigest.h>
-
 #include "hexdump.hpp"
 #include "macros.hpp"
+#include "sha256.hpp"
 
 namespace filez
 {
    class data_hash
    {
    public:
-      data_hash() noexcept
-      {
-         CC_SHA256_Init( &m_hash );
-      }
+      data_hash() noexcept = default;
 
       data_hash( const void* data, const std::size_t size ) noexcept
-         : data_hash()
       {
          update( data, size );
       }
@@ -49,14 +44,14 @@ namespace filez
       {
          if( size > 0 ) {
             FILEZ_ASSERT( data );
-            CC_SHA256_Update( &m_hash, data, size );
+            m_hash.update( data, size );
          }
       }
 
       [[nodiscard]] std::string result()
       {
-         unsigned char tmp[ CC_SHA256_DIGEST_LENGTH ];
-         CC_SHA256_Final( tmp, &m_hash );
+         std::uint8_t tmp[ sha256_hash_size ];
+         m_hash.finalise( tmp );
          return hexdump( tmp, sizeof( tmp ) );
       }
 
@@ -74,7 +69,7 @@ namespace filez
       }
 
    private:
-      CC_SHA256_CTX m_hash;
+      sha256 m_hash;
    };
 
 }  // namespace filez

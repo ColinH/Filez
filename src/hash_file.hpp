@@ -34,7 +34,8 @@ namespace filez
       }
 
    private:
-      std::string m_empty;
+      const std::string m_empty;
+
       std::map< file_node, std::string > m_map;
    };
 

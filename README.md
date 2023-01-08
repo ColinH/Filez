@@ -8,17 +8,26 @@ A couple of file tools for the Unix shell.
  * [Incremental](#incremental) for efficient incremental backups.
  * [Tree Struct Diff](#tree-struct-diff) compares two directory trees.
 
-Implemented in C++20 using the C and C++ standard libraries and Posix standard functions...
-
-...and some macOS specific functions for the hash, so currently only compiles under macOS.
+Implemented in C++20 using the C and C++ standard libraries and Posix standard functions.
 
 ## Building
 
-Enter `make` in the Terminal on a Mac with the Xcode command line tools installed.
+Requires a Unix system with GNU make and a C++20 capable Clang or GCC.
 
-The binaries can then be found under `build/bin`.
+Enter `make` in the main directory, the binaries can then be found under `build/bin`.
 
-If the `clang++` included with your Xcode does not support C++20 you will need to install a newer compiler, for example using [Homebrew](https://brew.sh) to install a recent LLVM or GCC.
+### Linux
+
+Please consult your distribution's manual on how to install GCC.
+If the version included with your distribution does not have enough C++20 support you might have to search the web for other solutions.
+
+### macOS
+
+If the `clang++` included with your Xcode does not support C++20 you will need something more recent, for example using [Homebrew](https://brew.sh) to install the latest LLVM (or GCC).
+
+### Others
+
+If you are trying to build this on any other Unix or Unix-like system like one of the BSDs you probably know how install or build a suitable compiler...
 
 ## The Tools
 
@@ -116,7 +125,5 @@ If the file is larger than 1024 times the chunk size then chunk size bytes at th
 ## Limitations
 
 Currently soft links are always ignored and never followed.
-
-Currently only compiles on macOS, with Linux support possibly coming soon.
 
 Copyright (c) 2022-2023 Dr. Colin Hirsch
