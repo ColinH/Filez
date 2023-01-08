@@ -28,26 +28,10 @@ namespace filez
          std::memset( &m_file_stat, 0, sizeof( m_file_stat ) );
       }
 
-      // explicit file_stat( const file_open& open )
-      // {
-      //    update( open );
-      // }
-
       explicit file_stat( const std::filesystem::path& path )
       {
          update( path );
       }
-
-      // void update( const file_open& open )
-      // {
-      //    if( ::fstat( open.get(), &m_file_stat ) ) {
-      //       FILEZ_ERRNO( "unable to fstat(2) file [ " << open.get() << " ]" );
-      //    }
-      //    if( !same_user() ) {
-      //       FILEZ_ERROR( "file [ " << open.get() << " ] does not belong to user [ " << ::getuid() << " ]" );
-      //    }
-      //    FILEZ_ASSERT( is_valid() );
-      // }
 
       void update( const std::filesystem::path& path )
       {
@@ -93,11 +77,6 @@ namespace filez
       [[nodiscard]] std::size_t links() const noexcept
       {
          return m_file_stat.st_nlink;
-      }
-
-      [[nodiscard]] file_time mtime() const noexcept
-      {
-         return ( file_time( m_file_stat.st_mtimespec.tv_sec ) << 64 ) + m_file_stat.st_mtimespec.tv_nsec;
       }
 
       // The C++17 filesystem library only contains a function that checks whether
