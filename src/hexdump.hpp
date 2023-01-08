@@ -19,8 +19,8 @@ namespace filez
       static const char hex_chars[] = "0123456789abcdef";
 
       while( begin != end ) {
-         r += hex_chars[ ( unsigned( * begin ) >> 4 ) & 0x0f ];
-         r += hex_chars[   unsigned( * begin )        & 0x0f ];
+         r += hex_chars[ ( unsigned( *begin ) >> 4 ) & 0x0f ];
+         r += hex_chars[   unsigned( *begin )        & 0x0f ];
          ++begin;
       }
       return r;
