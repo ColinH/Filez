@@ -16,14 +16,16 @@ Requires a Unix system with GNU make and a C++20 capable Clang or GCC.
 
 Enter `make` in the main directory, the binaries can then be found under `build/bin`.
 
+Tested with Clang 14 from Xcode 14 under macOS 13 on ARM64, and with GCC 12 under Linux on x86-64.
+
 ### Linux
 
 Please consult your distribution's manual on how to install GCC.
-If the version included with your distribution does not have enough C++20 support you might have to search the web for other solutions.
+If the version included with your distribution does not have enough C++20 support you might need to search the web for other solutions.
 
 ### macOS
 
-If the `clang++` included with your Xcode does not support C++20 you will need something more recent, for example using [Homebrew](https://brew.sh) to install the latest LLVM (or GCC).
+If the `clang++` included with your Xcode does not support C++20 you will need something more recent, for example using [Homebrew](https://brew.sh) to install the latest LLVM.
 
 ### Others
 
