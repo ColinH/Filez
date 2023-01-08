@@ -2,11 +2,11 @@
 
 A couple of file tools for the Unix shell.
 
- * [Duplicates](#duplicates) finds duplicate files.
- * [Variations](#variations) does something similar.
- * [Deduplicate](#deduplicate) hard links duplicates.
- * [Incremental](#incremental) for efficient incremental backups.
- * [Tree Struct Diff](#tree-struct-diff) compares two directory trees.
+ * [Duplicates](#duplicates) -- Find duplicate files.
+ * [Variations](#variations) -- Find (meta-)data variations.
+ * [Deduplicate](#deduplicate) -- Copy tree with hard links instead of duplicate files.
+ * [Incremental](#incremental) -- Incremental backup with multiple search strategies.
+ * [Tree Struct Diff](#tree-struct-diff) -- Compares structure of two file-and-directory trees.
 
 Implemented in C++20 using the C and C++ standard libraries and Posix standard functions.
 
@@ -91,7 +91,7 @@ Files for hard linking from an old backup to the new backup are found by:
  * Matching file size and file name.
  * Matching file size and file name and smart hash.
  * Matching file size and file name and total hash.
- * Matching file size and relative paths within source_dir and an old_backup.
+ * Matching file size and relative path within source_dir and an old_backup.
 
 All available options are shown when invoked without command line arguments.
 
