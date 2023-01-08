@@ -27,7 +27,7 @@ If the `clang++` included with your Xcode does not support C++20 you will need s
 
 ### Others
 
-If you are trying to build this on any other Unix or Unix-like system like one of the BSDs you probably know how install or build a suitable compiler...
+If you are trying to build this on any other Unix or Unix-like system like one of the BSDs you probably know how to install or build yourself a suitable compiler...
 
 ## The Tools
 
