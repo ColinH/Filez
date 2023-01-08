@@ -55,17 +55,12 @@ namespace filez
          return hexdump( tmp, sizeof( tmp ) );
       }
 
-      template< typename T >
-      [[nodiscard]] std::string result( T&& data )
+      [[nodiscard]] std::string result( const char c )
       {
-         update( data );
-         return result();
-      }
-
-      [[nodiscard]] std::string result( const void* data, const std::size_t size )
-      {
-         update( data, size );
-         return result();
+         std::uint8_t tmp[ sha256_hash_size + 1 ];
+         tmp[ 0 ] = std::uint8_t( c );
+         m_hash.finalise( tmp + 1 );
+         return hexdump( tmp, sizeof( tmp ) );
       }
 
    private:

@@ -28,7 +28,7 @@ namespace filez
          return ( iter == m_map.end() ) ? m_empty : iter->second;
       }
 
-      [[nodiscard]] const std::string& put( const file_node node, std::string hash )
+      [[nodiscard]] const std::string& put( const file_node node, std::string&& hash )
       {
          return m_map.try_emplace( node, std::move( hash ) ).first->second;
       }
@@ -56,13 +56,9 @@ namespace filez
          return hash;
       }
       file_mmap mmap( path, open, stat );
-
-      if( stat.size() < 33 ) {
-         return cache.put( stat.node(), "C" + mmap.string() );
-      }
       data_hash hash;
-
-      return cache.put( stat.node(), "T" + hash.result( mmap ) );
+      hash.update( mmap );
+      return cache.put( stat.node(), hash.result( 'T' ) );
    }
 
    [[nodiscard]] inline std::string hash_file_smart( const std::filesystem::path& path, const file_open& open, const file_stat& stat )
@@ -76,10 +72,6 @@ namespace filez
          return hash;
       }
       file_mmap mmap( path, open, stat );
-
-      if( stat.size() < 33 ) {
-         return cache.put( stat.node(), "C" + mmap.string() );
-      }
       data_hash hash;
 
       const std::size_t size = hash_size( path, mmap.size() );
@@ -87,7 +79,8 @@ namespace filez
       // Small file or file without configured partial hash size: hash everything.
 
       if( mmap.size() <= 3 * size ) {
-         return cache.put( stat.node(), "T" + hash.result( mmap ) );
+         hash.update( mmap );
+         return cache.put( stat.node(), hash.result( 'T' ) );
       }
       // Large file with configured partial hash size: hash only two or three chunks:
       // Always the first and last chunk, for very large files also the "middle" one.
@@ -101,7 +94,7 @@ namespace filez
          const std::size_t offset = rounded_down_to_pagesize( mmap.size() - size );
          hash.update( mmap.data() + offset, mmap.size() - offset );
       }
-      return cache.put( stat.node(), "P" + hash.result() );
+      return cache.put( stat.node(), hash.result( 'P' ) );
    }
 
    [[nodiscard]] inline std::string hash_file_total( const std::filesystem::path& path )
