@@ -57,10 +57,9 @@ namespace filez
 
       [[nodiscard]] std::string result( const char c )
       {
-         std::uint8_t tmp[ sha256_hash_size + 1 ];
-         tmp[ 0 ] = std::uint8_t( c );
-         m_hash.finalise( tmp + 1 );
-         return hexdump( tmp, sizeof( tmp ) );
+         std::uint8_t tmp[ sha256_hash_size ];
+         m_hash.finalise( tmp );
+         return hexdump( c, tmp, sizeof( tmp ) );
       }
 
    private:
