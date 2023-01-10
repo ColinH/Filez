@@ -43,10 +43,10 @@ The following definitions of "duplicate" are available:
 
  * Same file name.
  * Same file name and file size.
- * Same file name and file size and smart hash.
+ * Same file name and file size and [smart hash](#the-smart-hash).
  * Same file name and file size and total hash.
  * Same device and inode.
- * Same smart hash and file size.
+ * Same [smart hash](#the-smart-hash) and file size.
  * Same total hash and file size.
 
 All duplicates are printed with their paths.
@@ -60,12 +60,12 @@ Finds (meta) data variations where files that share certain attributes differ in
 The following variations can be chosen from:
 
  * Files with the same file name but different size.
- * Files with the same file name but different smart hash.
+ * Files with the same file name but different [smart hash](#the-smart-hash).
  * Files with the same file name but different total hash.
  * Files with the same device and inode but different file name.
- * Files with the same smart hash but different file name.
+ * Files with the same [smart hash](#the-smart-hash) but different file name.
  * Files with the same total hash but different file name.
- * Files with the same smart hash but different device and/or inode.
+ * Files with the same [smart hash](#the-smart-hash) but different device and/or inode.
  * Files with the same total hash but different device and/or inode.
 
 All variations are printed with their paths.
@@ -74,7 +74,9 @@ All available options are shown when invoked without command line arguments.
 
 ### Deduplicate
 
-Creates a copy of a directory structure where all identical files are hard links to one of the identical originals.
+Creates a copy of a directory tree where files are hard links to their originals.
+
+Identical files, as determined by file size and smart or total hash, will hard link to the same inode.
 
 All available options are shown when invoked without command line arguments.
 
@@ -86,10 +88,10 @@ Files that exist in the old backups are hard linked into the new backup instead 
 
 Files for hard linking from an old backup to the new backup are found by:
 
- * Matching file size and smart hash.
+ * Matching file size and [smart hash](#the-smart-hash).
  * Matching file size and total hash.
  * Matching file size and file name.
- * Matching file size and file name and smart hash.
+ * Matching file size and file name and [smart hash](#the-smart-hash).
  * Matching file size and file name and total hash.
  * Matching file size and relative path within source_dir and an old_backup.
 
@@ -113,11 +115,10 @@ Recurses into directories when a directory of the same name exists on both sides
 
 ## The Smart Hash
 
-The "smart hash" used throughout these tools is a way to speed up hashing when it can be safely assumed that files are either the same or "very different".
+The "smart hash" used throughout these tools is a way to speed up hashing when it can be assumed that two files with the same size are either identical or "sufficiently different".
 
-For file extensions corresponding to (usually) compressed file formats like `.mov`, `.bz2` and `.jpeg` the file `hash_size.hpp` contains a mapping from file extension to chunk size.
-This chunk size is currently 4KB for audio and image files, 16KB for video files, and 64KB for compressed archives.
-The smart hash for a file that does not have a "configured" chunk size is simply the hash of the entire file.
+For file extensions corresponding to (usually) compressed file formats like `.mov`, `.bz2` and `.jpeg` the file [`hash_size.hpp`](https://github.com/ColinH/Filez/blob/main/src/hash_size.hpp) contains a mapping from file extension to chunk size.
+The smart hash for a file that does not have a "configured" chunk size is the hash of the entire file.
 
 For files with a configured chunk size the smart hash also depends on the file size.
 If the file is smaller than 3 times the chunk size then the entire file is hashed.
@@ -127,5 +128,7 @@ If the file is larger than 1024 times the chunk size then chunk size bytes at th
 ## Limitations
 
 Currently soft links are always ignored and never followed.
+
+Not everything that should be configurable via command line arguments is actually configurable -- yet.
 
 Copyright (c) 2022-2023 Dr. Colin Hirsch
