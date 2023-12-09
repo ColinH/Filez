@@ -38,6 +38,8 @@ namespace filez
          { ".webm", video_hash_size },
 
          { ".aac", audio_hash_size },
+         { ".alac", audio_hash_size },
+         { ".flac", audio_hash_size },
          { ".m4a", audio_hash_size },
          { ".mp3", audio_hash_size },
          { ".ogg", audio_hash_size },
@@ -51,6 +53,7 @@ namespace filez
          { ".png", image_hash_size },
 
          { ".7z", archive_hash_size },
+         { ".arj", archive_hash_size },
          { ".bz2", archive_hash_size },
          { ".gz", archive_hash_size },
          { ".lha", archive_hash_size },
@@ -60,6 +63,7 @@ namespace filez
          { ".tgz", archive_hash_size },
          { ".xpk", archive_hash_size },
          { ".xz", archive_hash_size },
+         { ".z", archive_hash_size },
          { ".zip", archive_hash_size }
       };
       return map;
