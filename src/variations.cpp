@@ -57,7 +57,6 @@ int main( int argc, char** argv )
       FILEZ_STDERR( "  Additional options are..." );
       FILEZ_STDERR( "    -R   to change to non-recursive scanning." );
       FILEZ_STDERR( "    -C   to disable normalising the given paths." );
-      FILEZ_STDERR( "  Symbolic links are followed or ignored, can't remember." );
       FILEZ_STDERR( "  The smart hash only hashes two or three small chunks" );
       FILEZ_STDERR( "    when the file is large and the extension is one for" );
       FILEZ_STDERR( "    which a partial hash is usually sufficient." );

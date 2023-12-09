@@ -41,6 +41,10 @@ int main( int argc, char** argv )
       FILEZ_STDERR( "    -c N Copy instead of hard link all files smaller than N, default 0." );
       FILEZ_STDERR( "  Options can be combined, e.g. -hP (or -h -P) will search according to both -h and -P." );
       FILEZ_STDERR( "  At least one option different from -c must be given -- though everything except -x is a nop without an old_backup." );
+      FILEZ_STDERR( "  The smart hash only hashes two or three small chunks" );
+      FILEZ_STDERR( "    when the file is large and the extension is one for" );
+      FILEZ_STDERR( "    which a partial hash is usually sufficient." );
+      FILEZ_STDERR( "  The details are in hash_file.hpp and hash_size.hpp." );
       FILEZ_STDERR( "Copyright (c) 2022-2023 Dr. Colin Hirsch" );
       return 1;
    }

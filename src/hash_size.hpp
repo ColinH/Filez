@@ -38,7 +38,6 @@ namespace filez
          { ".webm", video_hash_size },
 
          { ".aac", audio_hash_size },
-         // { ".flac", audio_hash_size },
          { ".m4a", audio_hash_size },
          { ".mp3", audio_hash_size },
          { ".ogg", audio_hash_size },
@@ -46,7 +45,6 @@ namespace filez
 
          { ".cr2", image_hash_size },
          { ".dng", image_hash_size },
-         // { ".gif", image_hash_size },
          { ".jpg", image_hash_size },
          { ".jpeg", image_hash_size },
          { ".nef", image_hash_size },

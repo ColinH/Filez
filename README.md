@@ -37,81 +37,88 @@ None of these tools ever delete or overwrite any existing filesystem object.
 
 ### Duplicates
 
-Recursively scans one or more directories looking for duplicate files.
-
-The following definitions of "duplicate" are available:
-
- * Same file name.
- * Same file name and file size.
- * Same file name and file size and [smart hash](#the-smart-hash).
- * Same file name and file size and total hash.
- * Same device and inode.
- * Same [smart hash](#the-smart-hash) and file size.
- * Same total hash and file size.
-
-All duplicates are printed with their paths.
-
-All available options are shown when invoked without command line arguments.
+```
+Usage: build/bin/deduplicate [options]... <source_dir> <merged_dir>
+  Creates a new directory hierarchy under merged_dir that mirrors source_dir.
+  Directories are newly created. Files are hard-linked, not copied, such that
+  when source_dir contains multiple identical copies of a file then all of the
+  hard-linked versions in merged_dir will link to the same randomly chosen
+  version of the file in source_dir.
+  Files in the source dir are considered identical when...
+    -h   the file size and [smart hash](#the-smart-hash) match.
+    -H   the file size and total hash match.
+    -c N Copy instead of hard link all files smaller than N bytes, default 0.
+  Source and merged dir must be on the same filesystem. Merged dir must not exist.
+  Exactly one of -h and -H must be given.
+```
 
 ### Variations
 
-Finds (meta) data variations where files that share certain attributes differ in others.
-
-The following variations can be chosen from:
-
- * Files with the same file name but different size.
- * Files with the same file name but different [smart hash](#the-smart-hash).
- * Files with the same file name but different total hash.
- * Files with the same device and inode but different file name.
- * Files with the same [smart hash](#the-smart-hash) but different file name.
- * Files with the same total hash but different file name.
- * Files with the same [smart hash](#the-smart-hash) but different device and/or inode.
- * Files with the same total hash but different device and/or inode.
-
-All variations are printed with their paths.
-
-All available options are shown when invoked without command line arguments.
+```
+Usage: build/bin/variations [OPTION]... DIRECTORY [DIRECTORY]...
+  Finds file meta data variations in one or more directories.
+    -s   Finds variations of file size for the same file name.
+    -i   Finds variations of file name for the same device and inode.
+    -n   Finds variations of [smart hash](#the-smart-hash) for the same file name (default).
+    -N   Finds variations of total hash for the same file name.
+    -h   Finds variations of file name for the same [smart hash](#the-smart-hash).
+    -H   Finds variations of file name for the same total hash.
+    -x   Finds variations of device and inode for the same [smart hash](#the-smart-hash).
+    -X   Finds variations of device and inode for the same total hash.
+  Additional options are...
+    -R   to change to non-recursive scanning.
+    -C   to disable normalising the given paths.
+```
 
 ### Deduplicate
 
-Creates a copy of a directory tree where files are hard links to their originals.
-
-Identical files, as determined by file size and smart or total hash, will hard link to the same inode.
-
-All available options are shown when invoked without command line arguments.
+```
+Usage: build/bin/deduplicate [options]... <source_dir> <merged_dir>
+  Creates a new directory hierarchy under merged_dir that mirrors source_dir.
+  Directories are newly created. Files are hard-linked, not copied, such that
+  when source_dir contains multiple identical copies of a file then all of the
+  hard-linked versions in merged_dir will link to the same randomly chosen
+  version of the file in source_dir.
+  Files in the source dir are considered identical when...
+    -h   the file size and [smart hash](#the-smart-hash) match.
+    -H   the file size and total hash match.
+    -c N Copy instead of hard link all files smaller than N bytes, default 0.
+  Source and merged dir must be on the same filesystem. Merged dir must not exist.
+  Exactly one of -h and -H must be given.
+```
 
 ### Incremental
 
-Creates a new backup from a source directory and zero or more old backups.
-
-Files that exist in the old backups are hard linked into the new backup instead of copying from the source.
-
-Files for hard linking from an old backup to the new backup are found by:
-
- * Matching file size and [smart hash](#the-smart-hash).
- * Matching file size and total hash.
- * Matching file size and file name.
- * Matching file size and file name and [smart hash](#the-smart-hash).
- * Matching file size and file name and total hash.
- * Matching file size and relative path within source_dir and an old_backup.
-
-All available options are shown when invoked without command line arguments.
-
-At least one of the search strategies for hard linking has to be enabled.
-
-Optionally considers freshly copied files for hard linking to perform on-the-fly deduplication in the backup.
-
-The backup directories must all be on the same filesystem, and the source directory must be on a different one.
-
-Unlike many other backup applications this one never consults any of the file timestamps to determine anything.
+```
+Usage: build/bin/incremental [options]... <source_dir> [old_backup]... <new_backup>
+  Creates a new directory hierarchy under new_backup that mirrors source_dir.
+  Hard links files from the old_backups into new_backup when possible, copies
+  the files from source_dir when the file does not exist in a previous backup.
+  Files in the old backup(s) are hard linked instead of copied when...
+    -h   the file size and [smart hash](#the-smart-hash) match.
+    -H   the file size and total hash match.
+    -n   the file size and file name and [smart hash](#the-smart-hash) match.
+    -N   the file size and file name and total hash match.
+    -p   the file size and file name match.
+    -P   the file size and relative path within source_dir and the old_backup dir match, including file name.
+    -x   Consider freshly copied files as candidates for hard linking.
+    -c N Copy instead of hard link all files smaller than N, default 0.
+  Options can be combined, e.g. -hP (or -h -P) will search according to both -h and -P.
+  At least one option different from -c must be given -- though everything except -x is a nop without an old_backup.
+```
 
 ### Tree Struct Diff
 
-Recursively compares two directory trees and prints all structural differences.
-
-A structural difference is when a filesystem object of a certain name exists on one side but not the other.
-
-Recurses into directories when a directory of the same name exists on both sides.
+```
+Usage: build/bin/tree_struct_diff [OPTION]... DIRECTORY DIRECTORY
+  Compares the structure of two directory trees comparing
+  the file names present or absent in each (sub-)directory.
+  Options are...
+    -C   to disable normalising the given paths.
+    -s   to also check file sizes for differences.
+    -t   to also check file types for differences.
+  File types are 'directory', 'file', etc.
+```
 
 ## The Smart Hash
 
@@ -127,7 +134,7 @@ If the file is larger than 1024 times the chunk size then chunk size bytes at th
 
 ## Limitations
 
-Currently soft links are always ignored and never followed.
+Currently soft links (symolic links) are always ignored and never followed.
 
 Not everything that should be configurable via command line arguments is actually configurable -- yet.
 
