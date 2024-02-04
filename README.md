@@ -6,6 +6,7 @@ A couple of file tools for the Unix shell.
  * [Variations](#variations) -- Find (meta-)data variations.
  * [Deduplicate](#deduplicate) -- Copy tree with hard links instead of duplicate files.
  * [Incremental](#incremental) -- Incremental backup with multiple search strategies.
+ * [Link First Node](#link-first-node) -- Copies only the first hard link to a new tree.
  * [Tree Struct Diff](#tree-struct-diff) -- Compares structure of two file-and-directory trees.
 
 Implemented in C++20 using the C and C++ standard libraries and Posix standard functions.
@@ -33,7 +34,7 @@ If you are trying to build this on any other Unix or Unix-like system like one o
 
 ## The Tools
 
-None of these tools ever delete or overwrite any existing filesystem object.
+None of these tools ever delete or overwrite any existing filesystem object!
 
 ### Duplicates
 
@@ -105,6 +106,19 @@ Usage: build/bin/incremental [options]... <source_dir> [old_backup]... <new_back
     -c N Copy instead of hard link all files smaller than N, default 0.
   Options can be combined, e.g. -hP (or -h -P) will search according to both -h and -P.
   At least one option different from -c must be given -- though everything except -x is a nop without an old_backup.
+```
+
+### Link First Node
+
+```
+Usage: link_first_node <source_dir> <sparse_dir>
+  Creates a new directory hierarchy under sparse_dir that partially mirrors
+  source_dir. Files under source_dir are hard-linked correspondingly into
+  sparse_dir only if no other hard-link to the same inode was already created
+  during the current operation, and directories are created under sparse_dir
+  as required by the hard-linked files. Which of multiple paths from source_dir
+  sharing the same inode will be created under sparse_dir is unspecified.
+  Source and sparse dir must be on the same filesystem. Sparse dir must not exist.
 ```
 
 ### Tree Struct Diff
