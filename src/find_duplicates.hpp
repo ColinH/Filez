@@ -1,17 +1,17 @@
-// Copyright (c) 2022-2023 Dr. Colin Hirsch - All Rights Reserved
+// Copyright (c) 2022-2024 Dr. Colin Hirsch - All Rights Reserved
 
 #pragma once
 
 #include <type_traits>
 
-#include "file_info_list.hpp"
+#include "file_info_vector.hpp"
 
 namespace filez
 {
    class find_duplicates_base
    {
    public:
-      virtual void add( const file_info_list& ) = 0;
+      virtual void add( const file_info_vector& ) = 0;
       virtual void work() = 0;
 
    protected:
@@ -32,7 +32,7 @@ namespace filez
    public:
       find_duplicates() noexcept( std::is_nothrow_default_constructible_v< T > ) = default;
 
-      void add( const file_info_list& list ) override
+      void add( const file_info_vector& list ) override
       {
          m_t.add( list );
       }

@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Dr. Colin Hirsch
+# Copyright (c) 2022-2024 Dr. Colin Hirsch
 
 .SUFFIXES:
 .SECONDARY:

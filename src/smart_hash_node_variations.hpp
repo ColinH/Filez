@@ -1,4 +1,4 @@
-// Copyright (c) 2022-2023 Dr. Colin Hirsch - All Rights Reserved
+// Copyright (c) 2022-2024 Dr. Colin Hirsch - All Rights Reserved
 
 #pragma once
 
@@ -7,7 +7,7 @@
 #include <memory>
 #include <vector>
 
-#include "file_info_list.hpp"
+#include "file_info_vector.hpp"
 #include "file_stat.hpp"
 #include "macros.hpp"
 
@@ -18,7 +18,7 @@ namespace filez
    public:
       smart_hash_node_variations() noexcept = default;
 
-      void add( const file_info_list& list )
+      void add( const file_info_vector& list )
       {
          for( const auto& sp : list ) {
             if( sp->stat().is_file() ) {

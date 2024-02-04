@@ -1,4 +1,4 @@
-// Copyright (c) 2022-2023 Dr. Colin Hirsch - All Rights Reserved
+// Copyright (c) 2022-2024 Dr. Colin Hirsch - All Rights Reserved
 
 #include <filesystem>
 #include <vector>
@@ -13,7 +13,6 @@ std::vector< std::filesystem::path > paths;
 int main( int argc, char** argv )
 {
    filez::arguments args( paths );
-
    filez::incremental_args fia;
 
    args.add_bool( 'h', fia.h );
@@ -45,7 +44,6 @@ int main( int argc, char** argv )
       FILEZ_STDERR( "    when the file is large and the extension is one for" );
       FILEZ_STDERR( "    which a partial hash is usually sufficient." );
       FILEZ_STDERR( "  The details are in hash_file.hpp and hash_size.hpp." );
-      FILEZ_STDERR( "Copyright (c) 2022-2023 Dr. Colin Hirsch" );
       return 1;
    }
    filez::incremental_work incremental( paths.front(), paths.back(), fia );

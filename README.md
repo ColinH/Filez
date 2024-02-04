@@ -138,4 +138,4 @@ Currently soft links (symolic links) are always ignored and never followed.
 
 Not everything that should be configurable via command line arguments is actually configurable -- yet.
 
-Copyright (c) 2022-2023 Dr. Colin Hirsch
+Copyright (c) 2022-2024 Dr. Colin Hirsch

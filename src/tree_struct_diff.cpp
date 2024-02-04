@@ -1,4 +1,4 @@
-// Copyright (c) 2022-2023 Dr. Colin Hirsch - All Rights Reserved
+// Copyright (c) 2022-2024 Dr. Colin Hirsch - All Rights Reserved
 
 #include <filesystem>
 
@@ -30,7 +30,6 @@ int main( int argc, char** argv )
       FILEZ_STDERR( "    -s   to also check file sizes for differences." );
       FILEZ_STDERR( "    -t   to also check file types for differences." );
       FILEZ_STDERR( "  File types are 'directory', 'file', etc." );
-      FILEZ_STDERR( "Copyright (c) 2022-2023 Dr. Colin Hirsch" );
       return 1;
    }
    for( auto& path : paths ) {

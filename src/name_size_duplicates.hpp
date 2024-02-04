@@ -1,4 +1,4 @@
-// Copyright (c) 2022-2023 Dr. Colin Hirsch - All Rights Reserved
+// Copyright (c) 2022-2024 Dr. Colin Hirsch - All Rights Reserved
 
 #pragma once
 
@@ -6,7 +6,7 @@
 #include <memory>
 #include <vector>
 
-#include "file_info_list.hpp"
+#include "file_info_vector.hpp"
 #include "macros.hpp"
 
 namespace filez
@@ -16,7 +16,7 @@ namespace filez
    public:
       name_size_duplicates() noexcept = default;
 
-      void add( const file_info_list& list )
+      void add( const file_info_vector& list )
       {
          for( const auto& sp : list ) {
             if( sp->stat().is_file() ) {

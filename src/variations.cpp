@@ -1,10 +1,10 @@
-// Copyright (c) 2022-2023 Dr. Colin Hirsch - All Rights Reserved
+// Copyright (c) 2022-2024 Dr. Colin Hirsch - All Rights Reserved
 
 #include <filesystem>
 #include <vector>
 
 #include "arguments.hpp"
-#include "file_info_list.hpp"
+#include "file_info_vector.hpp"
 #include "macros.hpp"
 
 #include "find_variations.hpp"
@@ -61,14 +61,13 @@ int main( int argc, char** argv )
       FILEZ_STDERR( "    when the file is large and the extension is one for" );
       FILEZ_STDERR( "    which a partial hash is usually sufficient." );
       FILEZ_STDERR( "  The details are in hash_file.hpp and hash_size.hpp." );
-      FILEZ_STDERR( "Copyright (c) 2022-2023 Dr. Colin Hirsch" );
       return 1;
    }
    for( auto& path : paths ) {
       if( canonical ) {
          path = std::filesystem::canonical( path );
       }
-      finder->add( recursive ? filez::make_full_file_info_list( path ) : filez::make_file_info_list( path ) );
+      finder->add( recursive ? filez::make_full_file_info_vector( path ) : filez::make_file_info_vector( path ) );
    }
    finder->work();
    return 0;
