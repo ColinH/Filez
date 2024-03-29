@@ -15,7 +15,7 @@ Implemented in C++20 using the C and C++ standard libraries and Posix standard f
 
 Requires a Unix system with GNU make and a C++20 capable Clang or GCC.
 
-Enter `make` in the main directory, the binaries can then be found under `build/bin`.
+Enter `make` in the main directory, a successful run generates the binaries in `build/bin`.
 
 Tested with Clang 14 from Xcode 14 under macOS 13 on ARM64, and with GCC 12 under Linux on x86-64.
 
@@ -30,7 +30,7 @@ If the `clang++` included with your Xcode does not support C++20 you will need s
 
 ### Others
 
-If you are trying to build this on any other Unix or Unix-like system like one of the BSDs you probably know how to install or build yourself a suitable compiler...
+If you are trying to build this on any other Unix or Unix-like system, for example one of the BSDs, you probably know how to install or build yourself a suitable compiler...
 
 ## The Tools
 
@@ -148,7 +148,7 @@ If the file is larger than 1024 times the chunk size then chunk size bytes at th
 
 ## Limitations
 
-Currently soft links (symolic links) are always ignored and never followed.
+Currently soft links (symbolic links) are always ignored and never followed.
 
 Not everything that should be configurable via command line arguments is actually configurable -- yet.
 
