@@ -9,6 +9,8 @@ A couple of file tools for the Unix shell.
  * [Link First Node](#link-first-node) -- Copies only the first hard link to a new tree.
  * [Tree Struct Diff](#tree-struct-diff) -- Compares structure of two file-and-directory trees.
 
+The [*smart hash*](#the-smart-hash) used by these tools is explained at [the end of this file](#the-smart-hash).
+
 Implemented in C++20 using the C and C++ standard libraries and Posix standard functions.
 
 ## Building
@@ -67,11 +69,11 @@ Usage: build/bin/variations [OPTION]... DIRECTORY [DIRECTORY]...
   Finds file meta data variations in one or more directories.
     -s   Finds variations of file size for the same file name.
     -i   Finds variations of file name for the same device and inode.
-    -n   Finds variations of [smart hash](#the-smart-hash) for the same file name (default).
+    -n   Finds variations of smart hash for the same file name (default).
     -N   Finds variations of total hash for the same file name.
-    -h   Finds variations of file name for the same [smart hash](#the-smart-hash).
+    -h   Finds variations of file name for the same smart hash.
     -H   Finds variations of file name for the same total hash.
-    -x   Finds variations of device and inode for the same [smart hash](#the-smart-hash).
+    -x   Finds variations of device and inode for the same smart hash.
     -X   Finds variations of device and inode for the same total hash.
   Additional options are...
     -R   to change to non-recursive scanning.
@@ -88,7 +90,7 @@ Usage: build/bin/deduplicate [options]... <source_dir> <merged_dir>
   hard-linked versions in merged_dir will link to the same randomly chosen
   version of the file in source_dir.
   Files in the source dir are considered identical when...
-    -h   the file size and [smart hash](#the-smart-hash) match.
+    -h   the file size and smart hash match.
     -H   the file size and total hash match.
     -c N Copy instead of hard link all files smaller than N bytes, default 0.
   Source and merged dir must be on the same filesystem. Merged dir must not exist.
@@ -103,9 +105,9 @@ Usage: build/bin/incremental [options]... <source_dir> [old_backup]... <new_back
   Hard links files from the old_backups into new_backup when possible, copies
   the files from source_dir when the file does not exist in a previous backup.
   Files in the old backup(s) are hard linked instead of copied when...
-    -h   the file size and [smart hash](#the-smart-hash) match.
+    -h   the file size and smart hash match.
     -H   the file size and total hash match.
-    -n   the file size and file name and [smart hash](#the-smart-hash) match.
+    -n   the file size and file name and smart hash match.
     -N   the file size and file name and total hash match.
     -p   the file size and file name match.
     -P   the file size and relative path within source_dir and the old_backup dir match, including file name.
@@ -143,20 +145,29 @@ Usage: build/bin/tree_struct_diff [OPTION]... DIRECTORY DIRECTORY
 
 ## The Smart Hash
 
-The "smart hash" used throughout these tools is a way to speed up hashing when it can be assumed that two files with the same size are either identical or "sufficiently different".
+The "smart hash" used throughout these tools is a way to speed up hashing when it can be assumed that two files with the same size are either identical *or* sufficiently different to make this difference apparent in a partial hash.
 
-For file extensions corresponding to (usually) compressed file formats like `.mov`, `.bz2` and `.jpeg` the file [`hash_size.hpp`](https://github.com/ColinH/Filez/blob/main/src/hash_size.hpp) contains a mapping from file extension to chunk size.
-The smart hash for a file that does not have a "configured" chunk size is the hash of the entire file.
+For file extensions corresponding to (usually) compressed file formats like `.mov`, `.bz2` and `.jpeg` the header [`hash_size.hpp`](https://github.com/ColinH/Filez/blob/main/src/hash_size.hpp) contains a mapping from file extension to *chunk size*.
 
-For files with a configured chunk size the smart hash also depends on the file size.
-If the file is smaller than 3 times the chunk size then the entire file is hashed.
-Otherwise the beginning and end of the file are hashed, using (at least) chunk size bytes at either end (can be more due to page alignment).
-If the file is larger than 1024 times the chunk size then chunk size bytes at the centre of the file are also included in the hash.
+The smart hash for a file that does *not* have a defined *chunk size* is the hash of the entire file, i.e. the same as the "total" hash.
+This can be considered the default case.
+
+The smart hash for a file that *does* have a defined *chunk size* in the aforementioned header also depends on the size of the file.
+
+* If the file is smaller than 3 times the *chunk size* then the entire file is hashed.
+
+* If the file is larger than 3 times the *chunk size* then only the *chunk size* first and last bytes of the file are hashed.
+
+* If the file is larger than 1024 times the *chunk size* then an additional *chunk size* bytes near the centre of the file are also included in the smart hash.
+
+Note that due to page alignment and/or rounding sizes up to the system page size, slightly more data than indicated might be included in the smart hash.
 
 ## Limitations
 
 Currently soft links (symbolic links) are always ignored and never followed.
 
-Not everything that should be configurable via command line arguments is actually configurable -- yet.
+Not everything that should be configurable via command line arguments is configurable -- yet.
+
+The smart hash is a heuristic that might not always be appropriate.
 
 Copyright (c) 2022-2024 Dr. Colin Hirsch
