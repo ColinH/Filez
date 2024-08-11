@@ -39,18 +39,25 @@ None of these tools ever delete or overwrite any existing filesystem object!
 ### Duplicates
 
 ```
-Usage: build/bin/deduplicate [options]... <source_dir> <merged_dir>
-  Creates a new directory hierarchy under merged_dir that mirrors source_dir.
-  Directories are newly created. Files are hard-linked, not copied, such that
-  when source_dir contains multiple identical copies of a file then all of the
-  hard-linked versions in merged_dir will link to the same randomly chosen
-  version of the file in source_dir.
-  Files in the source dir are considered identical when...
-    -h   the file size and [smart hash](#the-smart-hash) match.
-    -H   the file size and total hash match.
-    -c N Copy instead of hard link all files smaller than N bytes, default 0.
-  Source and merged dir must be on the same filesystem. Merged dir must not exist.
-  Exactly one of -h and -H must be given.
+Usage: build/bin/duplicates [OPTION]... DIRECTORY [DIRECTORY]...
+  Finds duplicate files in one or more directories.
+  Files are duplicates when they have the same...
+    -n   file name.
+    -N   file name and size.
+    -i   device and inode mode 1.
+    -I   device and inode mode 2.
+    -h   smart hash and size (default).
+    -H   total hash and size.
+    -x   file name, smart hash and size.
+    -X   file name, total hash and size.
+  Additional options are...
+    -R   to change to non-recursive scanning.
+    -C   to disable normalising the given paths.
+  Special files like devices and pipes are ignored.
+  The smart hash only hashes two or three small chunks
+    when the file is large and the extension is one for
+    which a partial hash is usually sufficient.
+  The details are in hash_file.hpp and hash_size.hpp.
 ```
 
 ### Variations
