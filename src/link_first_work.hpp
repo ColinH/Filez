@@ -1,4 +1,4 @@
-// Copyright (c) 2024 Dr. Colin Hirsch - All Rights Reserved
+// Copyright (c) 2024-2025 Dr. Colin Hirsch - All Rights Reserved
 
 #pragma once
 

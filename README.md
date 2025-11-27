@@ -170,4 +170,4 @@ Not everything that should be configurable via command line arguments is configu
 
 The smart hash is a heuristic that might not always be appropriate.
 
-Copyright (c) 2022-2024 Dr. Colin Hirsch
+Copyright (c) 2022-2025 Dr. Colin Hirsch
