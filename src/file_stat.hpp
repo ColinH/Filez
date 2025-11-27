@@ -36,10 +36,10 @@ namespace filez
       void update( const std::filesystem::path& path )
       {
          if( ::lstat( path.c_str(), &m_file_stat ) ) {
-            FILEZ_ERRNO( "unable to lstat(2) path [ " << path << " ]" );
+            FILEZ_ERRNO( "unable to lstat(2) path " << path );
          }
          if( !same_user() ) {
-            FILEZ_ERROR( "file [ " << path << " ] does not belong to user [ " << ::getuid() << " ]" );
+            FILEZ_ERROR( "path " << path << " does not belong to user " << ::getuid() );
          }
          FILEZ_ASSERT( is_valid() );
       }

@@ -25,7 +25,7 @@ namespace filez
       file_mmap( const std::filesystem::path& path, const file_open& open, const file_stat& stat )
       {
          if( !stat.is_file() ) {
-            FILEZ_ERROR( "unable to mmap() path [ " << path << " ] -- is not regular file" );
+            FILEZ_ERROR( "unable to mmap() path " << path << " -- is not regular file" );
          }
          m_size = stat.size();
 
@@ -34,7 +34,7 @@ namespace filez
             m_data = static_cast< char * >( ::mmap( 0, m_size, PROT_READ, MAP_PRIVATE, open.get(), 0 ) );
 
             if( m_data == MAP_FAILED ) {
-               FILEZ_ERRNO( "unable to mmap() path [ " << path << " ]" );
+               FILEZ_ERRNO( "unable to mmap() path " << path );
             }
          }
       }

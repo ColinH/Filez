@@ -23,4 +23,4 @@
    do { std::ostringstream oss; oss << MeSSaGe; throw std::runtime_error( oss.str() ); } while( 1 )
 
 #define FILEZ_ERRNO( MeSSaGe )                                          \
-   do { std::ostringstream oss; oss << MeSSaGe << " errno [ " << std::strerror( errno ) << " ]"; throw std::runtime_error( oss.str() ); } while( 1 )
+   do { std::ostringstream oss; oss << MeSSaGe << " errno " << std::strerror( errno ); throw std::runtime_error( oss.str() ); } while( 1 )
