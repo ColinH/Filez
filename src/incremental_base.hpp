@@ -4,6 +4,7 @@
 
 #include <filesystem>
 #include <string>
+#include <vector>
 
 #include "file_info_maps.hpp"
 #include "file_info_sets.hpp"
@@ -39,6 +40,7 @@ namespace filez
             FILEZ_ERROR( "old backup " << old_path << " and new backup " << m_new_path << " are not independent" );
          }
          make_file_info_by_size_map_impl< file_info_by_size_map, std::filesystem::recursive_directory_iterator >( m_old_files, old_path );
+         m_old_roots.push_back( old_path );
       }
 
    protected:
@@ -73,6 +75,7 @@ namespace filez
 
       const file_info_by_path_set m_src_files;
       file_info_by_size_map m_old_files;
+      std::vector< std::filesystem::path > m_old_roots;
 
    private:
       [[nodiscard]] std::filesystem::path initialize_new_path( const std::filesystem::path& new_backup )

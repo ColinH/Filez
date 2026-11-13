@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <algorithm>
 #include <filesystem>
 #include <unistd.h>
 
@@ -89,9 +90,11 @@ namespace filez
             return false;
          }
          if( m_args.P ) {
-            for( const std::shared_ptr< file_info >& of : iter->second ) {
-               if( transferred( m_src_path, fi.path(), of->path() ) ) {
-                  backup_link_impl( *of, to );
+            const auto relative_path = fi.path().lexically_relative( m_src_path );
+            for( const auto& root : m_old_roots ) {
+               const auto match = std::ranges::find( iter->second, root / relative_path, &file_info::path );
+               if( match != iter->second.end() ) {
+                  backup_link_impl( **match, to );
                   return true;
                }
             }
