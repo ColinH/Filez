@@ -11,7 +11,7 @@ UNAME_S := $(shell uname -s)
 # that -stdlib=libc++ is not automatically added.
 
 ifeq ($(CXXSTD),)
-CXXSTD := -std=c++20
+CXXSTD := -std=c++23
 ifeq ($(UNAME_S),Darwin)
 CXXSTD += -stdlib=libc++
 endif
