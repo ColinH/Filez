@@ -1,4 +1,4 @@
-// Copyright (c) 2022-2025 Dr. Colin Hirsch - All Rights Reserved
+// Copyright (c) 2022-2026 Dr. Colin Hirsch - All Rights Reserved
 
 #include <filesystem>
 #include <vector>
