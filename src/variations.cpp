@@ -34,7 +34,7 @@ int main( int argc, char** argv )
    args.add_bool( 's', []( const std::string_view ){ finder = std::make_shared< filez::find_variations< filez::name_size_variations > >(); } );
    args.add_bool( 'i', []( const std::string_view ){ finder = std::make_shared< filez::find_variations< filez::node_name_variations > >(); } );
 
-   args.add_bool( 'n', []( const std::string_view ){ /* finder = std::make_shared< filez::find_variations< filez::name_smart_hash_variations > >(); */ } );
+   args.add_bool( 'n', []( const std::string_view ){ finder = std::make_shared< filez::find_variations< filez::name_smart_hash_variations > >(); } );
    args.add_bool( 'N', []( const std::string_view ){ finder = std::make_shared< filez::find_variations< filez::name_total_hash_variations > >(); } );
 
    args.add_bool( 'h', []( const std::string_view ){ finder = std::make_shared< filez::find_variations< filez::smart_hash_name_variations > >(); } );

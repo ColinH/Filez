@@ -37,7 +37,7 @@ int main( int argc, char** argv )
    args.add_bool( 'i', []( const std::string_view ){ finder = std::make_shared< filez::find_duplicates< filez::found_node_duplicates > >(); } );
    args.add_bool( 'I', []( const std::string_view ){ finder = std::make_shared< filez::find_duplicates< filez::total_node_duplicates > >(); } );
 
-   args.add_bool( 'h', []( const std::string_view ){ /* finder = std::make_shared< filez::find_duplicates< filez::smart_hash_size_duplicates > >(); */ } );
+   args.add_bool( 'h', []( const std::string_view ){ finder = std::make_shared< filez::find_duplicates< filez::smart_hash_size_duplicates > >(); } );
    args.add_bool( 'H', []( const std::string_view ){ finder = std::make_shared< filez::find_duplicates< filez::total_hash_size_duplicates > >(); } );
 
    args.add_bool( 'x', []( const std::string_view ){ finder = std::make_shared< filez::find_duplicates< filez::name_smart_hash_size_duplicates > >(); } );
