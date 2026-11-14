@@ -110,7 +110,7 @@ Usage: build/bin/incremental [options]... <source_dir> [old_backup]... <new_back
     -n   the file size and file name and smart hash match.
     -N   the file size and file name and total hash match.
     -p   the file size and file name match.
-    -P   the file size and relative path within source_dir and the old_backup dir match, including file name.
+    -P   the file size and relative path within source_dir and an old_backup dir match, including file name.
     -x   Consider freshly copied files as candidates for hard linking.
     -c N Copy instead of hard link all files smaller than N, default 0.
   Options can be combined, e.g. -hP (or -h -P) will search according to both -h and -P.
@@ -147,7 +147,7 @@ Usage: build/bin/tree_struct_diff [OPTION]... DIRECTORY DIRECTORY
 
 The "smart hash" used throughout these tools is a way to speed up hashing when it can be assumed that two files with the same size are either identical *or* sufficiently different to make this difference apparent in a partial hash.
 
-For file extensions corresponding to (usually) compressed file formats like `.mov`, `.bz2` and `.jpeg` the header [`hash_size.hpp`](https://github.com/ColinH/Filez/blob/main/src/hash_size.hpp) contains a mapping from file extension to *chunk size*.
+For file extensions corresponding to (usually) compressed media file formats like `.mov` and `.jpeg` the header [`hash_size.hpp`](https://github.com/ColinH/Filez/blob/main/src/hash_size.hpp) contains a mapping from file extension to *chunk size*.
 
 The smart hash for a file that does *not* have a defined *chunk size* is the hash of the entire file, i.e. the same as the "total" hash.
 This can be considered the default case.
