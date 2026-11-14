@@ -13,7 +13,7 @@
 
 namespace filez
 {
-   [[nodiscard]] auto hash_size_data()
+   [[nodiscard]] const auto& hash_size_data()
    {
       static const std::size_t audio_hash_size = rounded_up_to_pagesize( 4096 );
       static const std::size_t image_hash_size = rounded_up_to_pagesize( 4096 );
@@ -71,7 +71,7 @@ namespace filez
 
    [[nodiscard]] std::size_t hash_size( const std::filesystem::path& path, const std::size_t size )
    {
-      const auto data = hash_size_data();
+      const auto& data = hash_size_data();
       const auto iter = data.find( path.extension().native() );
       return ( iter == data.end() ) ? size : iter->second;
    }
