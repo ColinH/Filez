@@ -131,10 +131,7 @@ namespace filez
          }
          if( m_args.H ) {
             for( const std::shared_ptr< file_info >& of : iter->second ) {
-               FILEZ_ASSERT( !fi.path().filename().empty() );
-               FILEZ_ASSERT( !of->path().filename().empty() );
-
-               if( ( fi.path().filename() == of->path().filename() ) && ( of->total_hash() == fi.total_hash() ) ) {
+               if( of->total_hash() == fi.total_hash() ) {
                   backup_link_impl( *of, to );
                   return true;
                }
@@ -142,7 +139,10 @@ namespace filez
          }
          if( m_args.N ) {
             for( const std::shared_ptr< file_info >& of : iter->second ) {
-               if( of->total_hash() == fi.total_hash() ) {
+               FILEZ_ASSERT( !fi.path().filename().empty() );
+               FILEZ_ASSERT( !of->path().filename().empty() );
+
+               if( ( fi.path().filename() == of->path().filename() ) && ( of->total_hash() == fi.total_hash() ) ) {
                   backup_link_impl( *of, to );
                   return true;
                }

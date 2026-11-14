@@ -38,10 +38,10 @@ int main( int argc, char** argv )
    args.add_bool( 'N', []( const std::string_view ){ finder = std::make_shared< filez::find_variations< filez::name_total_hash_variations > >(); } );
 
    args.add_bool( 'h', []( const std::string_view ){ finder = std::make_shared< filez::find_variations< filez::smart_hash_name_variations > >(); } );
-   args.add_bool( 'H', []( const std::string_view ){ finder = std::make_shared< filez::find_variations< filez::total_hash_node_variations > >(); } );
+   args.add_bool( 'H', []( const std::string_view ){ finder = std::make_shared< filez::find_variations< filez::total_hash_name_variations > >(); } );
 
    args.add_bool( 'x', []( const std::string_view ){ finder = std::make_shared< filez::find_variations< filez::smart_hash_node_variations > >(); } );
-   args.add_bool( 'X', []( const std::string_view ){ finder = std::make_shared< filez::find_variations< filez::total_hash_name_variations > >(); } );
+   args.add_bool( 'X', []( const std::string_view ){ finder = std::make_shared< filez::find_variations< filez::total_hash_node_variations > >(); } );
 
    if( ( !args.parse_nothrow( argc, argv ) ) || paths.empty() ) {
       FILEZ_STDERR( "Usage: " << argv[ 0 ] << " [OPTION]... DIRECTORY [DIRECTORY]..." );

@@ -35,7 +35,7 @@ int main( int argc, char** argv )
       FILEZ_STDERR( "    -n   the file size and file name and smart hash match." );
       FILEZ_STDERR( "    -N   the file size and file name and total hash match." );
       FILEZ_STDERR( "    -p   the file size and file name match." );
-      FILEZ_STDERR( "    -P   the file size and relative path within source_dir and the old_backup dir match, including file name." );
+      FILEZ_STDERR( "    -P   the file size and relative path within source_dir and an old_backup dir match, including file name." );
       FILEZ_STDERR( "    -x   Consider freshly copied files as candidates for hard linking." );
       FILEZ_STDERR( "    -c N Copy instead of hard link all files smaller than N, default 0." );
       FILEZ_STDERR( "  Options can be combined, e.g. -hP (or -h -P) will search according to both -h and -P." );
