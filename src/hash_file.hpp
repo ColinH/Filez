@@ -43,7 +43,6 @@ namespace filez
    // 'E' stands for "empty", i.e. the hashed file is empty.
    // 'T' stands for "total", i.e. all bytes of the file were hashed,
    // 'P' stands for "partial", i.e. that some bytes were skipped.
-   // 'C' stands for "contents", i.e. the file contents are the hash.
 
    [[nodiscard]] inline std::string hash_file_total( const std::filesystem::path& path, const file_open& open, const file_stat& stat )
    {
